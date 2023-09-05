@@ -1,0 +1,6 @@
+{
+    "VALID_UPLOAD_METHOD" : "Define Valid Upload Method.",
+    "FILE_LESS_THAN_5MB" : "File should less than 5 Mb",
+    "VIDEO_LESS_THAN_20MB" : "File should less than 20 Mb",
+    "UNSUPPORTED_FILE_TYPE" : "Unsupported file type"
+}

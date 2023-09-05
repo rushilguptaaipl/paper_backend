@@ -1,0 +1,8 @@
+
+{
+    "ROLE_CREATED_SUCCESSFULLY": "Role created successfully",
+    "ROLE_DELETED_SUCCESSFULLY": "Role deleted successfully",
+    "ROLE_NOT_FOUND": "Role not found",
+    "ROLE_UPDATED_SUCCESSFULLY": "Role updated successfully",
+    "NO_ROLE_FOUND": "No role found"
+}
