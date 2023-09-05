@@ -85,10 +85,6 @@ export class UserRepository {
    */
   async createUser(createUserInput: CreateUserInput): Promise<User> {
 
-  
-
-    const customerGroup = await this.customerRepository.findOne({ where: { id: 1 } });
-
     const saltOrRounds = 10;
     const salt = await bcrypt.genSalt(saltOrRounds);
     const passwordHash = await bcrypt.hash(createUserInput.password, salt);
@@ -108,9 +104,6 @@ export class UserRepository {
       throw new NotFoundException(this.i18n.t('user.ROLE_NOT_FOUND'));
     }
 
-    if (!customerGroup) {
-      throw new NotFoundException(this.i18n.t('user.CUSTOMER_NOT_FOUND'));
-    }
     user.created_at = new Date(Date.now());
     user.updated_at = new Date(Date.now());
 
@@ -120,16 +113,6 @@ export class UserRepository {
     await queryRunner.startTransaction();
     try {
       const userResult = await queryRunner.manager.save(user);
-
-      if (createUserInput.role == 1) {
-        const userAdditionalInformation = new UserAdditionalInformation();
-        userAdditionalInformation.total_credits = 1;
-        userAdditionalInformation.user = userResult;
-        await queryRunner.manager.save(userAdditionalInformation);
-
-      }
-
-
       await queryRunner.commitTransaction()
 
       const userData = await this.userRepository.findOne({ where: { id: userResult.id }, relations: { roles: true } });

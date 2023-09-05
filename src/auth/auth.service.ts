@@ -76,22 +76,9 @@ export class AuthService {
     );
 
     if (user) {
-      const deviceDetail = await this.deviceDetail.findOne({
-        where: {
-          device_id: loginInput.device_id,
-          device_token: loginInput.device_token,
-          user: { id: user.id },
-        },
-      });
 
-      if (!deviceDetail) {
-        await this.devicedetail(loginInput, user);
-      }
-
-      user.profile_picture = this.imageUploadLib.getProfilePicture(
-        user.profile_picture,
-        'avatar',
-      );
+      
+      
       const tokens = await this.getTokens(user.id, user.email, user.roles);
       await this._userRepository.updateRtHash(user.id, tokens.refresh_token);
       return AuthResponse.decode(user, tokens);
@@ -342,8 +329,6 @@ export class AuthService {
     const user = await this._userRepository.createUser(createUserInput);
 
     if (user) {
-      await this.devicedetail(createUserInput, user);
-
       const tokens = await this.getTokens(user.id, user.email, user.roles);
       await this._userRepository.updateRtHash(user.id, tokens.refresh_token);
       return AuthResponse.decode(user, tokens);
@@ -365,20 +350,6 @@ export class AuthService {
     logoutInput: logoutInput,
   ): Promise<Boolean> {
     await this._userRepository.updateRtHash(user.id, rt);
-
-    const findDevice = await this.deviceDetail.findOne({
-      where: {
-        device_id: logoutInput.device_id,
-        device_token: logoutInput.device_token,
-        user: { id: user.id },
-      },
-    });
-
-    if (!findDevice) {
-      throw new NotFoundException(this.i18n.t('auth.DEVICE_NOT_FOUND'));
-    } else {
-      await this.deviceDetail.delete(findDevice.id);
-    }
     return true;
   }
 
