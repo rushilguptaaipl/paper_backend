@@ -11,7 +11,7 @@ import { errorEx } from 'error-ex';
 export const  CurrentUser = createParamDecorator(
   async (data: unknown, ctx: ExecutionContext) => {
     const request = getRequest(ctx);
-    const user =  await userRepository.findOne({where : {id:request.user.userId } , relations:{ roles : true , status:true ,userAdditionalInformation : true, customerGroup: true}})
+    const user =  await userRepository.findOne({where : {id:request.user.userId } , relations:{ roles : true , status:true}})
     
     if(!user){
       throw new BadRequestException('No user found');

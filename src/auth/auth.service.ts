@@ -243,9 +243,9 @@ export class AuthService {
         user = await this.userRepository.findOne({
           where: {
             mobile: loginWithOtpInput.mobile,
-            country_code: loginWithOtpInput.country_code,
+           
           },
-          relations: { roles: true, userAdditionalInformation: true },
+          relations: { roles: true},
         });
       } else { throw new BadRequestException(this.i18n.t('auth.COUNTRY_CODE_MOBILE_REQUIRED')); }
     };
@@ -260,7 +260,7 @@ export class AuthService {
 
         user = await this.userRepository.findOne({
           where: { email: loginWithOtpInput.email },
-          relations: { roles: true, userAdditionalInformation: true },
+          relations: { roles: true},
         });
       } else {
         throw new BadRequestException(this.i18n.t('auth.EMAIL_REQUIRED'));
@@ -281,10 +281,9 @@ export class AuthService {
         user = await this.userRepository.findOne({
           where: {
             email: loginWithOtpInput.email,
-            country_code: loginWithOtpInput.country_code,
             mobile: loginWithOtpInput.mobile,
           },
-          relations: { roles: true, userAdditionalInformation: true },
+          relations: { roles: true},
         });
       } else {
         throw new BadRequestException(this.i18n.t('auth.EMAIL_COUNTRY_CODE_MOBILE_REQUIRED'))

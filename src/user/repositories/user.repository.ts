@@ -47,9 +47,9 @@ export class UserRepository {
 
     let user: User
     if (role) {
-      user = await this.userRepository.findOne({ where: { email: username, roles: [{ id: role }] }, relations: { roles: true, status: true, userAdditionalInformation: true } });
+      user = await this.userRepository.findOne({ where: { email: username, roles: [{ id: role }] }, relations: { roles: true, status: true,} });
     } else {
-      user = await this.userRepository.findOne({ where: { email: username }, relations: { roles: true, status: true, userAdditionalInformation: true } });
+      user = await this.userRepository.findOne({ where: { email: username }, relations: { roles: true, status: true } });
     }
 
     if (user) {
@@ -85,19 +85,7 @@ export class UserRepository {
    */
   async createUser(createUserInput: CreateUserInput): Promise<User> {
 
-    const referral_code = generate({
-      length: 6,
-      count: 1
-    })
-
-    // check if user has any referral code to use in request we will validate here
-    let userWhoRefer
-    if (createUserInput.referral_code) {
-      userWhoRefer = await this.userRepository.findOne({ where: { referral_code: createUserInput.referral_code }, relations: { userAdditionalInformation: true } });
-      if (!userWhoRefer) {
-        throw new BadRequestException('Referral code is wrong!');
-      }
-    }
+  
 
     const customerGroup = await this.customerRepository.findOne({ where: { id: 1 } });
 
@@ -111,12 +99,10 @@ export class UserRepository {
     user.name = createUserInput.name;
     user.email = createUserInput.email.toLowerCase();
     user.mobile = createUserInput.mobile;
-    user.country_code = createUserInput.country_code;
     user.dob = createUserInput.dob;
     user.password = passwordHash;
     user.roles = role;
     user.status = userStatus;
-    user.customerGroup = customerGroup;
 
     if (!role.length) {
       throw new NotFoundException(this.i18n.t('user.ROLE_NOT_FOUND'));
@@ -124,21 +110,6 @@ export class UserRepository {
 
     if (!customerGroup) {
       throw new NotFoundException(this.i18n.t('user.CUSTOMER_NOT_FOUND'));
-    }
-
-
-    // generate referral code for student only
-    if (createUserInput.role == 1) {
-      user.referral_code = referral_code[0];
-    }
-
-    if (createUserInput.referral_code) {
-      user.referral_code_used = createUserInput.referral_code;
-    }
-
-    if (createUserInput.is_verified == 1) {
-      user.is_verified = 1;
-      user.email_verified_at = new Date(Date.now());
     }
     user.created_at = new Date(Date.now());
     user.updated_at = new Date(Date.now());
@@ -158,26 +129,10 @@ export class UserRepository {
 
       }
 
-      // if user use the Referral code we have to give one credit to the owner of referral code
-      if (userWhoRefer) {
-        let oldCredits = 0;
-        if (userWhoRefer.userAdditionalInformation) {
-          oldCredits = userWhoRefer.userAdditionalInformation.total_credits;
-        }
-        const userAdditionalInformation = new UserAdditionalInformation();
-        userAdditionalInformation.total_credits = oldCredits + 1;
-        if (userWhoRefer.userAdditionalInformation) {
-          await queryRunner.manager.update(UserAdditionalInformation, userWhoRefer.userAdditionalInformation.id, userAdditionalInformation);
-        } else {
-          userAdditionalInformation.user = userWhoRefer;
-          await queryRunner.manager.save(userAdditionalInformation);
-        }
-
-      }
 
       await queryRunner.commitTransaction()
 
-      const userData = await this.userRepository.findOne({ where: { id: userResult.id }, relations: { roles: true, userAdditionalInformation: true } });
+      const userData = await this.userRepository.findOne({ where: { id: userResult.id }, relations: { roles: true } });
 
       return userData;
     } catch (err) {

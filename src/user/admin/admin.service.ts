@@ -82,13 +82,10 @@ export class AdminService {
         user.name = createUserInput.name;
         user.email = createUserInput.email.toLowerCase();
         user.mobile = createUserInput.mobile;
-        user.country_code = createUserInput.country_code;
         user.dob = createUserInput.dob;
         user.password = passwordHash;
         user.roles = roles;
         user.status = getStatus;
-        user.is_verified = 1;
-        user.email_verified_at = new Date(Date.now());
         user.created_at = new Date(Date.now());
         user.updated_at = new Date(Date.now());
 
@@ -126,7 +123,7 @@ export class AdminService {
      */
     async adminGetUserProfile(adminGetUserProfileInput: AdminGetUserProfileInput, user: User): Promise<AdminProfile> {
 
-        const getUser = await this.userRepository.findOne({ where: { id: adminGetUserProfileInput.user_id }, relations: { roles: true, status: true, userAdditionalInformation: true } });
+        const getUser = await this.userRepository.findOne({ where: { id: adminGetUserProfileInput.user_id }, relations: { roles: true, status: true} });
         if (getUser.is_block) {
             throw new BadRequestException(this.i18n.t('user.USER_BLOCKED'))
         }
@@ -298,7 +295,6 @@ export class AdminService {
 
         getUser.name = adminUpdateUserInput.name;
         getUser.mobile = adminUpdateUserInput.mobile;
-        getUser.country_code = adminUpdateUserInput.country_code;
         getUser.dob = adminUpdateUserInput.dob;
         getUser.roles = role;
         adminUpdateUserInput.updated_at = new Date(Date.now());

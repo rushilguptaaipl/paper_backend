@@ -27,6 +27,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { RouteAccessClassMiddleware } from './common/middleware/route-access-class.middleware';
 import { TypeOrmService } from './typeorm/type-orm.service';
 import { SubjectModule } from './subject/subject.module';
+import { YearModule } from './year/year.module';
 
 config();
 const configService = new ConfigService();
@@ -88,6 +89,7 @@ console.log(configService.get('GRAPHQL_INTROSPECTION'));
     UserModule,
     AuthModule,
     SubjectModule,
+    YearModule,
   ],
 
   providers: [AppService],

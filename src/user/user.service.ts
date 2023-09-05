@@ -403,16 +403,14 @@ export class UserService {
       user.mobile = editProfileInput.mobile
         ? editProfileInput.mobile
         : user.mobile;
-      user.country_code = editProfileInput.country_code
-        ? editProfileInput.country_code
-        : user.country_code;
+
       user.dob = editProfileInput.dob ? editProfileInput.dob : user.dob;
 
       const userId = await this.userRepository.save(user);
 
       const getUserProfile = await this.userRepository.findOne({
         where: { id: user.id },
-        relations: { roles: true, userAdditionalInformation: true },
+        relations: { roles: true},
       });
 
       getUserProfile.profile_picture = this.imageUploadLib.getProfilePicture(
@@ -564,7 +562,7 @@ export class UserService {
    */
   async findOneByPhone(country_code: string, mobile: string): Promise<User> {
     const result = await this.userRepository.findOne({
-      where: { country_code: country_code, mobile: mobile },
+      where: { mobile: mobile },
     });
     return result;
   }
@@ -580,7 +578,7 @@ export class UserService {
     email: string,
   ): Promise<User> {
     const result = await this.userRepository.findOne({
-      where: { country_code: country_code, mobile: mobile, email: email },
+      where: { mobile: mobile, email: email },
     });
     return result;
   }

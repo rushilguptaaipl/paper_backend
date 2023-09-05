@@ -26,9 +26,6 @@ export class AdminCreateUserInput {
   mobile: string;
 
   @Field({ nullable: true })
-  country_code: string;
-
-  @Field({ nullable: true })
   @DateFormat({ message: "The date is invalid. Please enter a date in the format yyyy-mm-dd" })
   dob: string;
 

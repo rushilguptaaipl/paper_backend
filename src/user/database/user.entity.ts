@@ -49,39 +49,6 @@ export class User extends BaseEntity {
   })
   mobile: string;
 
-  @Column({
-    type: 'varchar',
-    length: 4,
-    default: null,
-  })
-  country_code: string;
-
-  @Column({
-    type: 'varchar',
-    unique: true,
-    length: 10,
-    default: null,
-  })
-  referral_code: string;
-
-  @Column({
-    type: 'varchar',
-    length: 10,
-    default: null,
-  })
-  referral_code_used: string;
-
-  @Column({
-    type: 'timestamptz',
-    default: null,
-  })
-  email_verified_at: Date;
-
-  @Column({
-    type: 'smallint',
-    default: 0,
-  })
-  is_verified: number;
 
   @Column({
     type: 'boolean',
@@ -95,25 +62,14 @@ export class User extends BaseEntity {
   })
   profile_picture: string;
 
-  @Column({
-    type: 'varchar',
-    default: null,
-    length: 150,
-  })
-  stripe_connect_id: string;
 
-  @Column({
-    type: 'varchar',
-    default: null,
-    length: 150,
-  })
-  stripe_customer_id: string;
+
+
 
   @ManyToOne(() => Status, (status) => status.id)
   status: Status;
 
-  @OneToOne(() => UserAdditionalInformation, (userAdditionalInformation) => userAdditionalInformation.user)
-  userAdditionalInformation: UserAdditionalInformation
+
 
   @ManyToMany(() => Roles, (roles) => roles.id, {
     cascade: true,
@@ -121,9 +77,6 @@ export class User extends BaseEntity {
   @JoinTable()
   roles: Roles[]
 
-
-  @ManyToOne(() => CustomerGroup, (customerGroup) => customerGroup.id)
-  customerGroup: CustomerGroup;
 
   @Column({
     type: "boolean",

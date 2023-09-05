@@ -82,7 +82,7 @@ export class AdminSubjectService {
       throw new NotFoundException()
     }
     const result = await this.subjectRepository.softDelete(deleteSubjectInput.id)
-    if(!result)
+    if(result.affected == 0)
     {
       throw new BadRequestException('Something went wrong!');
     }

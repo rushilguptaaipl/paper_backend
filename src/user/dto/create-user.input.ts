@@ -1,6 +1,5 @@
 import { InputType, Int, Field ,GraphQLISODateTime, registerEnumType} from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty , IsDateString , IsOptional , IsDate, Matches, MinLength} from 'class-validator';
-import { DateResolver } from 'graphql-scalars';
 import { DateFormat } from '../validation/dateTime-validation';
 import { IsEmailAlreadyExist } from '../validation/email-validation';
 import { Platform } from '../enum/platform.enum';
@@ -29,12 +28,6 @@ export class CreateUserInput {
 
   @Field({nullable: true})
   mobile: string;
-
-  @Field({nullable: true})
-  referral_code: string;
-
-  @Field({nullable: true})
-  country_code: string;
 
   @Field({nullable: true})
   is_verified: number;
