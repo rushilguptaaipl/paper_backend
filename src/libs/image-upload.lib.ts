@@ -15,10 +15,7 @@ export class ImageUploadLib {
 
     private  imageMimeTypes = [
         'image/jpg',
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/bmp',
+         '*/pdf'
     ];
 
     private uploadMethod : string  ;
@@ -47,21 +44,21 @@ export class ImageUploadLib {
 
     }
 
-    async imageUpload(imageUploadInput: ImageUploadInput, dir : string , user: any){
+    async imageUpload(imageUploadInput: any, dir : string){
 
         this.uploadProfilePicturePath = this.uploadProfilePicturePath +'/'+ dir+'/';
 
         if(this.uploadMethod == 'local'){
-            return this.localUplaod(imageUploadInput, user);
+            return this.localUplaod(imageUploadInput);
         }else if(this.uploadMethod == 'aws'){
-            return this.awsUpload(imageUploadInput, dir, user);
+            return this.awsUpload(imageUploadInput, dir);
         }else{
           return new ForbiddenException(this.i18n.t('lib.VALID_UPLOAD_METHOD'));
         }
         
       }
 
-     async localUplaod(imageUploadInput: ImageUploadInput, user: any) : Promise<any>{
+     async localUplaod(imageUploadInput: any) : Promise<any>{
 
         const { createReadStream, filename , mimetype , encoding} = await imageUploadInput.image;
         
@@ -88,7 +85,7 @@ export class ImageUploadLib {
         );
      }
 
-     async awsUpload(imageUpload: ImageUploadInput, dir : string , user: any):Promise<any>{
+     async awsUpload(imageUpload: any, dir : string):Promise<any>{
 
       const { createReadStream, filename, mimetype  } = await imageUpload.image;
 

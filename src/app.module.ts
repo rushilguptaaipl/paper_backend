@@ -28,6 +28,7 @@ import { RouteAccessClassMiddleware } from './common/middleware/route-access-cla
 import { TypeOrmService } from './typeorm/type-orm.service';
 import { SubjectModule } from './subject/subject.module';
 import { YearModule } from './year/year.module';
+import { PaperModule } from './paper/paper.module';
 
 config();
 const configService = new ConfigService();
@@ -90,6 +91,7 @@ console.log(configService.get('GRAPHQL_INTROSPECTION'));
     AuthModule,
     SubjectModule,
     YearModule,
+    PaperModule,
   ],
 
   providers: [AppService],

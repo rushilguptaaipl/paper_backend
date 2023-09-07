@@ -8,10 +8,4 @@ import { UserService } from "./user.service";
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @UseGuards(AtGuard)
-    @Post('profilePictureUpload')
-    @UseInterceptors(FileInterceptor('file'))
-    uploadFile(@UploadedFile() file: Express.Multer.File, @CurrentUser() user) {
-        return this.userService.restProfilePictureUpload(file, user);
-    }
 }

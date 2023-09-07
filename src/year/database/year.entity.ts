@@ -1,4 +1,5 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { PaperUpload } from "src/paper/database/paperUpload.entity";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Year {
@@ -7,6 +8,9 @@ export class Year {
 
     @Column()
     year: number;
+
+    @OneToMany(()=>PaperUpload,(paperUpload)=> paperUpload.id)
+    paperUpload:PaperUpload
 
     @Column({
         type: 'timestamptz',

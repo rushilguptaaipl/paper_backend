@@ -1,4 +1,5 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { PaperUpload } from "src/paper/database/paperUpload.entity";
+import { BaseEntity, Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Subject extends BaseEntity{
@@ -8,6 +9,9 @@ export class Subject extends BaseEntity{
 
     @Column()
     subject : string
+
+    @OneToMany(()=>PaperUpload,(paperupload)=>paperupload.id)
+    paperUpload:PaperUpload
 
     @Column({
         type: 'timestamptz',

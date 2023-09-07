@@ -7,8 +7,13 @@ import { Subject } from '../database/subject.entity';
 import { BooleanMessage } from 'src/user/entities/boolean-message.entity';
 import {updateSubjectInput} from '../dto/admin/updateSubject.input'
 import {DeleteSubjectInput} from '../dto/admin/deleteSubject.input'
+import { AtGuard } from 'src/auth/guards/at.guard';
+import { UseGuards } from '@nestjs/common';
+import PermissionGuard from 'src/auth/guards/permission.guard';
 
 @Resolver(() => Subject)
+@UseGuards(PermissionGuard())
+@UseGuards(AtGuard)
 export class AdminSubjectResolver {
   constructor(private readonly adminSubjectService: AdminSubjectService) { }
 

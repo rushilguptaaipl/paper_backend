@@ -57,11 +57,7 @@ export class UserResolver {
     return this.userService.forgetPassword(forgetPasswordInput);
   }
 
-  @UseGuards(AtGuard)
-  @Mutation(() => ImageUploadEntity, { description: "Upload profile picture" })
-  profilePictureUpload(@Args('profilePictureUpload') imageUploadInput: ImageUploadInput, @CurrentUser() user) {
-    return this.userService.profilePictureUpload(imageUploadInput, user);
-  }
+
 
   @UseGuards(AtGuard)
   @Mutation(() => BooleanMessage, { description: "Change a password" })
