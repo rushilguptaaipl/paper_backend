@@ -21,6 +21,7 @@ export class ImageUploadLib {
         'image/png',
         'image/gif',
         'image/bmp',
+        "application/pdf"
     ];
 
     private uploadMethod : string  ;
