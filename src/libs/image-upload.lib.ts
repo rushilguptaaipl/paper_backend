@@ -7,15 +7,20 @@ import { config } from 'dotenv';
 import { v4 as uuid } from 'uuid';
 import { Buffer } from 'buffer';
 import { FileUpload } from "graphql-upload"
+import { buffer } from 'stream/consumers';
 import { ImageUploadInput} from '../libs/dto/image-upload.input';
 import { I18nService } from 'nestjs-i18n';
+import { UploadpaperInput } from 'src/paper/dto/admin/uploadPaper.input';
 config();
 @Injectable()
 export class ImageUploadLib {
 
     private  imageMimeTypes = [
         'image/jpg',
-         '*/pdf'
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/bmp',
     ];
 
     private uploadMethod : string  ;
@@ -44,23 +49,23 @@ export class ImageUploadLib {
 
     }
 
-    async imageUpload(imageUploadInput: any, dir : string){
+    async imageUpload(image, dir : string , user: any){
 
         this.uploadProfilePicturePath = this.uploadProfilePicturePath +'/'+ dir+'/';
 
         if(this.uploadMethod == 'local'){
-            return this.localUplaod(imageUploadInput);
+            return this.localUplaod(image, user);
         }else if(this.uploadMethod == 'aws'){
-            return this.awsUpload(imageUploadInput, dir);
+            return this.awsUpload(image, dir, user);
         }else{
           return new ForbiddenException(this.i18n.t('lib.VALID_UPLOAD_METHOD'));
         }
         
       }
 
-     async localUplaod(imageUploadInput: any) : Promise<any>{
+     async localUplaod(image, user: any) : Promise<any>{
 
-        const { createReadStream, filename , mimetype , encoding} = await imageUploadInput.image;
+        const { createReadStream, filename , mimetype , encoding} = await image;
         
         const getMimeType = this.imageMimeTypes.includes(mimetype);
         await this.checkFileSize(createReadStream , this.maxFileSize);
@@ -85,7 +90,7 @@ export class ImageUploadLib {
         );
      }
 
-     async awsUpload(imageUpload: any, dir : string):Promise<any>{
+     async awsUpload(imageUpload: ImageUploadInput, dir : string , user: any):Promise<any>{
 
       const { createReadStream, filename, mimetype  } = await imageUpload.image;
 

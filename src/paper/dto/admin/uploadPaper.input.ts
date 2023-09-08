@@ -4,15 +4,15 @@ import { FileUpload, GraphQLUpload } from "graphql-upload";
 
 @InputType()
 export class UploadpaperInput{
-    // @Field({nullable:true})
-    // // @IsNotEmpty()
-    // subject : string
+    @Field({nullable:true})
+    @IsNotEmpty()
+    subject : string
 
-    // @Field({nullable:true})
-    // // @IsNotEmpty()
-    // year : number
+    @Field({nullable:true})
+    @IsNotEmpty()
+    year : number
 
     @Field(() => GraphQLUpload)
-    file: Promise<FileUpload>;
+    image: Promise<FileUpload>;
 
 }

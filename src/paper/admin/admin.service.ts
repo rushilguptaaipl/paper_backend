@@ -17,37 +17,46 @@ export class AdminUploadPaperService {
         @InjectRepository(PaperUpload) private readonly paperUploadRepository: Repository<PaperUpload>,
         private readonly imageUploadLib:ImageUploadLib
     ) { }
-    async adminUploadPaper(uploadPaperInput: UploadpaperInput) {
-
+    async adminUploadPaper(uploadPaperInput: UploadpaperInput , user:any) {
+       const {image} = uploadPaperInput
         const isPaperExist = await this.paperUploadRepository
         .createQueryBuilder('paperUpload')
         .leftJoinAndSelect("paperUpload.subject",'subject')
-        .leftJoinAndSelect("paperupload.year", "year")
-        // .andWhere('subject= :name', { name: uploadPaperInput.subject })
-        // .andWhere('year = :year', { year: uploadPaperInput.year })
+        .leftJoinAndSelect("paperUpload.year", "year")
+        .andWhere('subject= :name', { name: uploadPaperInput.subject })
+        .andWhere('year = :year', { year: uploadPaperInput.year })
         .getOne()
 
         if(isPaperExist){
             throw new ConflictException()
         }
 
-        // const subject = await this.subjectRepository.findOne({ where: { subject: uploadPaperInput.subject } })
+        const subject = await this.subjectRepository.findOne({ where: { subject: uploadPaperInput.subject } })
 
-        // if (!subject) {
-        //     throw new NotFoundException()
-        // }
+        if (!subject) {
+            throw new NotFoundException()
+        }
 
-        // const year = await this.yearRepository.findOne({ where: { year: uploadPaperInput.year } })
+        const year = await this.yearRepository.findOne({ where: { year: uploadPaperInput.year } })
 
-        // if (!year) {
-        //     throw new NotFoundException()
-        // }
+        if (!year) {
+            throw new NotFoundException()
+        }
+    
+        const result = await this.imageUploadLib.imageUpload(image,this.PROFILE_PICTURE_UPLOAD_DIR,user)
 
-        const result = await this.imageUploadLib.imageUpload(uploadPaperInput.file,this.PROFILE_PICTURE_UPLOAD_DIR)
+        const paper =  new PaperUpload()
+        paper.subject = subject;
+        paper.year = year;
+        paper.url = result
+        console.log(result);
+
+        await this.paperUploadRepository.save(paper);
 
         const response = new BooleanMessage()
-        response.success = true;
+        response.success = true; 
         response.message = "uploaded";
+        return response;
     }
 
 }

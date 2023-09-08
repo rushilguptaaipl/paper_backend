@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv'
 import * as fs from 'fs';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 config();
 const configService = new ConfigService();
@@ -23,7 +24,7 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule , {httpsOptions});
-  // app.use(graphqlUploadExpress());
+  app.use(graphqlUploadExpress());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalPipes(new ValidationPipe({
     transform: true

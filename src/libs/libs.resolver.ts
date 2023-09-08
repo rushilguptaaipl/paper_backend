@@ -1,4 +1,4 @@
-import { Resolver } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { LibsService } from './libs.service';
 import { Lib } from './entities/lib.entity';
 import { UseGuards } from '@nestjs/common';
@@ -9,5 +9,5 @@ import { AtGuard } from 'src/auth/guards/at.guard';
 @UseGuards(AtGuard)
 @Resolver(() => Lib)
 export class LibsResolver {
-  constructor(private readonly libsService: LibsService) { }
+  constructor(private readonly libsService: LibsService) {}
 }
