@@ -7,6 +7,7 @@ import { Year } from "src/year/database/year.entity";
 import { ImageUploadLib } from "src/libs/image-upload.lib";
 import { BooleanMessage } from "src/user/entities/boolean-message.entity";
 import { PaperUpload } from "../database/paperUpload.entity";
+import { University } from "src/university/database/university.entity";
 
 @Injectable()
 export class AdminUploadPaperService {
@@ -15,6 +16,7 @@ export class AdminUploadPaperService {
         @InjectRepository(Subject) private readonly subjectRepository: Repository<Subject>,
         @InjectRepository(Year) private readonly yearRepository: Repository<Year>,
         @InjectRepository(PaperUpload) private readonly paperUploadRepository: Repository<PaperUpload>,
+        @InjectRepository(University) private readonly universityRepository : Repository<University>,
         private readonly imageUploadLib:ImageUploadLib
     ) { }
     async adminUploadPaper(uploadPaperInput: UploadpaperInput , user:any) {
@@ -23,8 +25,10 @@ export class AdminUploadPaperService {
         .createQueryBuilder('paperUpload')
         .leftJoinAndSelect("paperUpload.subject",'subject')
         .leftJoinAndSelect("paperUpload.year", "year")
+        .leftJoinAndSelect('paperUpload.university', "university")
         .andWhere('subject= :name', { name: uploadPaperInput.subject })
         .andWhere('year = :year', { year: uploadPaperInput.year })
+        .andWhere('university = :university' , {university:uploadPaperInput.university})
         .getOne()
 
         if(isPaperExist){
@@ -42,13 +46,16 @@ export class AdminUploadPaperService {
         if (!year) {
             throw new NotFoundException()
         }
-    
+        
+        const university = await this.universityRepository.findOne({where:{name:uploadPaperInput.university}});
+        
         const result = await this.imageUploadLib.imageUpload(image,this.PROFILE_PICTURE_UPLOAD_DIR,user)
 
         const paper =  new PaperUpload()
         paper.subject = subject;
         paper.year = year;
-        paper.url = result
+        paper.url = result;
+        paper.university = university
         console.log(result);
 
         await this.paperUploadRepository.save(paper);

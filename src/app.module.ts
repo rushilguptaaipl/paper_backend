@@ -29,6 +29,7 @@ import { TypeOrmService } from './typeorm/type-orm.service';
 import { SubjectModule } from './subject/subject.module';
 import { YearModule } from './year/year.module';
 import { PaperModule } from './paper/paper.module';
+import { UniversityModule } from './university/university.module';
 
 config();
 const configService = new ConfigService();
@@ -92,6 +93,7 @@ console.log(configService.get('GRAPHQL_INTROSPECTION'));
     SubjectModule,
     YearModule,
     PaperModule,
+    UniversityModule,
   ],
 
   providers: [AppService],

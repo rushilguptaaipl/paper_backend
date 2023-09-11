@@ -12,6 +12,10 @@ export class UploadpaperInput{
     @IsNotEmpty()
     year : number
 
+    @Field()
+    @IsNotEmpty()
+    university:string
+
     @Field(() => GraphQLUpload)
     image: Promise<FileUpload>;
 
