@@ -27,7 +27,7 @@ export class AdminYearService {
         return response;
     }
 
-    async adminListYear(): Promise<AdminListYear> {
+    async adminListYear(): Promise<ListYearResponse> {
         const years: Year[] = await this.yearRepository.find()
         if (!years.length) {
             throw new NotFoundException()

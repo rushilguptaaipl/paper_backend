@@ -18,7 +18,7 @@ export class AdminSubjectService {
     private readonly i18n: I18nService,
   ) {}
 
-  async adminCreateSubject(createSubjectInput: CreateSubjectInput){
+  async adminCreateSubject(createSubjectInput: CreateSubjectInput): Promise<BooleanMessage>{
 
     const IsSubjectExist = await this.subjectRepository.findOne({where:{subject:createSubjectInput.subject}})
     if(IsSubjectExist)
@@ -37,7 +37,7 @@ export class AdminSubjectService {
     return response
   }
 
-  async adminListSubject(){
+  async adminListSubject() : Promise<ListSubjectResponse>{
     const subject = await this.subjectRepository.find()
     if(!subject.length)
     {
@@ -47,7 +47,7 @@ export class AdminSubjectService {
     return ListSubjectResponse.decode(result);
   } 
 
-  async adminGetSubject(getSubjectInput : GetSubjectInput){
+  async adminGetSubject(getSubjectInput : GetSubjectInput):Promise<Subject>{
     const subject : Subject = await this.subjectRepository.findOne({where:{id:getSubjectInput.id}});
      if(!subject)
      {
@@ -57,7 +57,7 @@ export class AdminSubjectService {
     return subject
   }
 
-  async adminUpdateSubject(updateSubjectInput:updateSubjectInput){
+  async adminUpdateSubject(updateSubjectInput:updateSubjectInput):Promise<BooleanMessage>{
     const subject : Subject =  await this.subjectRepository.findOne({where:{id:updateSubjectInput.id}})
     if(!subject)
     {
@@ -75,7 +75,7 @@ export class AdminSubjectService {
     return response
   }
 
-  async adminDeleteSubject(deleteSubjectInput:DeleteSubjectInput){
+  async adminDeleteSubject(deleteSubjectInput:DeleteSubjectInput):Promise<BooleanMessage>{
     const subject = await this.subjectRepository.findOne({where:{id:deleteSubjectInput.id}})
     if(!subject)
     {

@@ -11,7 +11,7 @@ import { GetUniversitiesResponse, UniversityResponse } from "../response/admin/g
 @Injectable()
 export class AdminuniversityService {
     constructor(@InjectRepository(University) private readonly universityRepository: Repository<University>) { }
-    async adminCreateUniversity(createUniversityInput: CreateUniversityInput) {
+    async adminCreateUniversity(createUniversityInput: CreateUniversityInput):Promise<BooleanMessage> {
 
         const isUniversityExists = await this.universityRepository.findOne({ where: { name: createUniversityInput.name, city: createUniversityInput.city } })
 
@@ -32,7 +32,7 @@ export class AdminuniversityService {
 
     }
 
-    async adminUpdateUniversity(updateUniversityInput: UpdateUniversityInput) {
+    async adminUpdateUniversity(updateUniversityInput: UpdateUniversityInput):Promise<BooleanMessage> {
         const result = await this.universityRepository.update(updateUniversityInput.id, updateUniversityInput);
         if (!result) {
             throw new BadRequestException()
@@ -43,7 +43,7 @@ export class AdminuniversityService {
         return response;
     }
 
-    async adminListUniversities() {
+    async adminListUniversities() :Promise<UniversityResponse> {
         const universities = await this.universityRepository.find()
         if (!universities.length) {
             throw new NotFoundException()

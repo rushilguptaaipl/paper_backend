@@ -19,7 +19,7 @@ export class AdminUploadPaperService {
         @InjectRepository(University) private readonly universityRepository : Repository<University>,
         private readonly imageUploadLib:ImageUploadLib
     ) { }
-    async adminUploadPaper(uploadPaperInput: UploadpaperInput , user:any) {
+    async adminUploadPaper(uploadPaperInput: UploadpaperInput , user:any) :Promise<BooleanMessage> {
        const {image} = uploadPaperInput
         const isPaperExist = await this.paperUploadRepository
         .createQueryBuilder('paperUpload')
