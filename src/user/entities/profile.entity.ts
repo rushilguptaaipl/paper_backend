@@ -2,16 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { OverAllRating } from './overAll-rating.entity';
 import { UserRoles } from '../../roles/entities/roles.entity';
 
-@ObjectType()
-export class CustomerGroup {
 
-  @Field({ nullable: true })
-  id: number;
-
-  @Field({ nullable: true })
-  name: string;
-
-}
 @ObjectType()
 export class CheckStatus {
 
@@ -35,24 +26,7 @@ export class getSchool {
   status: CheckStatus;
 
 }
-@ObjectType()
-export class GetUserAdditional {
 
-  @Field({ nullable: true })
-  id: number;
-
-  @Field({ nullable: true })
-  overall_rating: number;
-
-  @Field({ nullable: true })
-  total_credits: number;
-
-  @Field({ nullable: true })
-  flashcount: number;
-
-  @Field(() => getSchool, { nullable: true })
-  school: getSchool;
-}
 
 @ObjectType()
 export class Profile {
@@ -86,9 +60,6 @@ export class Profile {
   @Field(() => [UserRoles], { nullable: true })
   role: UserRoles[];
 
-  @Field(() => GetUserAdditional, { nullable: true })
-  userAdditionalInformation: GetUserAdditional;
 
-  @Field(() => CustomerGroup, { nullable: true })
-  customerGroup: CustomerGroup;
+
 }

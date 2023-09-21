@@ -12,18 +12,7 @@ export class listStatus {
 
 }
 
-@ObjectType()
-export class userAdditionalInformation {
 
-    @Field({ nullable: true })
-    id: string;
-
-    @Field({ nullable: true })
-    total_credits : string
-
-    @Field({ nullable: true })
-    overall_rating : string
-}
 
 @ObjectType()
 export class ListUserAdmin {
@@ -64,8 +53,6 @@ export class ListUserAdmin {
     @Field(() => listStatus, { nullable: true })
     status: listStatus;
 
-    @Field(() => userAdditionalInformation, { nullable: true })
-    userAdditionalInformation: userAdditionalInformation;
 }
 
 @ObjectType()

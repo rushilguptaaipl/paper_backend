@@ -5,12 +5,11 @@ import { User } from "../database/user.entity";
 import * as bcrypt from 'bcrypt';
 import { CreateUserInput } from '../dto/create-user.input';
 import { AppDataSource } from "app-data-source";
-import { UserAdditionalInformation } from "../database/user-additional.entity";
 import { Roles } from "../../roles/database/roles.entity";
 import { Status } from "../database/status.entity";
 import { generate, Charset } from 'referral-codes'
 import { I18nService } from 'nestjs-i18n';
-import { CustomerGroup } from "../database/customer-group.entity";
+
 
 @EntityRepository(User)
 export class UserRepository {
@@ -21,8 +20,6 @@ export class UserRepository {
     private rolesRepository: Repository<Roles>,
     @InjectRepository(Status)
     private statusRepository: Repository<Status>,
-    @InjectRepository(CustomerGroup)
-    private customerRepository: Repository<CustomerGroup>,
     private readonly i18n: I18nService,
 
   ) { }

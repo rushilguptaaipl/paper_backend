@@ -23,7 +23,6 @@ import { ChangePasswordInput } from './dto/change-password.input';
 import { ForgetPasswordInput } from './dto/forget-password.input';
 import { EditProfileInput } from './dto/edit-profile.input';
 import { GetProfileResponse } from './response/user.response';
-import { UserAdditionalInformation } from './database/user-additional.entity';
 import { I18nService } from 'nestjs-i18n';
 
 // Upload image Lib
@@ -47,8 +46,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @InjectRepository(UserAdditionalInformation)
-    private userAdditionalRepository: Repository<UserAdditionalInformation>,
     @InjectRepository(Roles)
     private rolesRepository: Repository<Roles>,
     @InjectRepository(Status)

@@ -3,7 +3,6 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AtGuard } from 'src/auth/guards/at.guard';
 import RoleGuard from 'src/auth/guards/role.guard';
 import { User } from '../database/user.entity';
-import { AdminListTransactionInput } from '../dto/admin/admin-list-transaction.input';
 import { AdminUserStatusInput } from '../dto/admin/admin-user-status.input';
 import { ListUserInput } from '../dto/admin/list-user-admin.input';
 import { AdminListTransaction } from '../entities/admin/admin-list-transaction.entity';
@@ -15,11 +14,6 @@ import { CurrentUser } from '../user.decorator';
 import { AdminService } from './admin.service';
 import { AdminGetUserProfileInput } from '../dto/admin/admin-get-user-profile.input'
 import { AdminVerifiesUserInput } from '../dto/admin/admin-verifies-user.input';
-import { CustomerGroupInput } from '../dto/admin/admin-customer-group.input';
-import { UpdateCustomerGroupInput } from '../dto/admin/admin-update-customer-group.input';
-import { DeleteCustomerGroupInput } from '../dto/admin/admin-delete-customer-group';
-import { ListCustomerGroupInput } from '../dto/admin/admin-list-group.input';
-import { ListCustomerGroup } from '../entities/admin/admin-list-customer-group.entity';
 import PermissionGuard from 'src/auth/guards/permission.guard';
 import { AdminUpdateUserInput } from '../dto/admin/admin-update-users.input';
 import { AdminCreateUserInput } from '../dto/admin/admin-create-users.input';
@@ -62,11 +56,6 @@ export class AdminResolver {
   }
 
 
-  @Query(() => AdminListTransaction, { nullable: true, description: "List Student transaction history" })
-  adminListStudentTransactionHistory(@Args('adminListTransactionHistory') adminListTransactionInput: AdminListTransactionInput, @CurrentUser() user) {
-    return this.adminService.adminListStudentTransactionHistory(adminListTransactionInput, user);
-  }
-
 
   @Mutation(() => BooleanMessage, { description: "Delete a user" })
   adminDeleteUser(@Args('userId') userId: number) {
@@ -94,30 +83,5 @@ export class AdminResolver {
     return this.adminService.adminUnblockUser(userId);
   }
 
-
-  //*****Customer Group *****//
-
-  @Mutation(() => BooleanMessage, { description: "Create a cutomer group" })
-  adminCreateCustomerGroup(@Args('customerGroupInput') customerGroupInput: CustomerGroupInput) {
-    return this.adminService.adminCreateCustomerGroup(customerGroupInput)
-  }
-
-
-  @Mutation(() => BooleanMessage, { description: "Update a customer group" })
-  adminUpdateCustomerGroup(@Args('updateCustomerGroupInput') updateCustomerGroupInput: UpdateCustomerGroupInput) {
-    return this.adminService.adminUpdateCustomerGroup(updateCustomerGroupInput)
-  }
-
-
-  @Mutation(() => BooleanMessage, { description: "Delete a Customer group" })
-  adminDeleteCustomerGroup(@Args('deleteCustomerGroupInput') deleteCustomerGroupInput: DeleteCustomerGroupInput) {
-    return this.adminService.adminDeleteCustomerGroup(deleteCustomerGroupInput)
-  }
-
-
-  @Query(() => [ListCustomerGroup], { description: "List all customer groups" })
-  adminListCustomerGroup(@Args('listCustomerGroupInput') listCustomerGroupInput: ListCustomerGroupInput) {
-    return this.adminService.adminListCustomerGroup(listCustomerGroupInput);
-  }
 
 }

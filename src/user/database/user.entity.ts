@@ -9,8 +9,8 @@ import {
 import { Status } from "./status.entity";
 import { Roles } from "../../roles/database/roles.entity";
 
-import { UserAdditionalInformation } from './user-additional.entity';
-import { CustomerGroup } from './customer-group.entity';
+
+
 
 
 @Entity()

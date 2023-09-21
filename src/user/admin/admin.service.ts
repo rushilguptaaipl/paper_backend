@@ -17,21 +17,10 @@ import { GetListUserResponse } from '../response/admin/list-user.response';
 import { AdminUserStatusInput } from '../dto/admin/admin-user-status.input';
 import { BooleanMessage } from '../entities/boolean-message.entity';
 import { AppDataSource } from 'app-data-source';
-import { AdminListTransactionInput } from '../dto/admin/admin-list-transaction.input';
-import { AdminListTransaction } from '../entities/admin/admin-list-transaction.entity';
-import { AdminListTransactionResponse } from '../response/admin/admin-transaction-history.response';
 import { isEmpty } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { AdminGetUserProfileInput } from '../dto/admin/admin-get-user-profile.input'
 import { AdminVerifiesUserInput } from '../dto/admin/admin-verifies-user.input';
-import { CustomerGroupInput } from '../dto/admin/admin-customer-group.input';
-import { CustomerGroup } from 'src/user/database/customer-group.entity';
-import { AdminRepository } from '../repositories/admin/admin-user-group.repository';
-import { UpdateCustomerGroupInput } from '../dto/admin/admin-update-customer-group.input';
-import { DeleteCustomerGroupInput } from '../dto/admin/admin-delete-customer-group';
-import { ListCustomerGroupInput } from '../dto/admin/admin-list-group.input';
-import { GetCustomerGroupResponse } from '../response/admin/admin-customer-group.response';
-import { ListCustomerGroup } from '../entities/admin/admin-list-customer-group.entity';
 import { AdminUpdateUserInput } from '../dto/admin/admin-update-users.input';
 import { AdminCreateUserInput } from '../dto/admin/admin-create-users.input';
 
@@ -47,7 +36,6 @@ export class AdminService {
         private rolesRepository: Repository<Roles>,
         @InjectRepository(Status)
         private statusRepository: Repository<Status>,
-        private readonly _adminRepository: AdminRepository,
         private readonly i18n: I18nService,
         private imageUploadLib: ImageUploadLib,
     ) { }
@@ -64,7 +52,7 @@ export class AdminService {
             const role = await this.rolesRepository.findOne({ where: { id: createUserInput.role[i] } });
             roles.push(role)
         }
-        if ((roles.length - 1) < 1) {
+        if (!roles.length) {
             throw new NotFoundException(this.i18n.t('user.ROLE_NOT_FOUND'));
         }
 
@@ -145,7 +133,6 @@ export class AdminService {
 
         const [listUser, count] = await this.userRepository.createQueryBuilder('user')
             .leftJoinAndSelect('user.status', 'status')
-            .leftJoinAndSelect('user.userAdditionalInformation', 'userAdditionalInformation')
             .leftJoinAndSelect('user.roles', 'roles')
             .where(listUserInput.role_id == null ? isEmpty : 'roles.id = :id', { id: listUserInput.role_id })
             .andWhere(new Brackets(qb => {
@@ -209,11 +196,6 @@ export class AdminService {
         response.success = true;
         response.message = this.i18n.t('user.STATUS_UPDATED');
         return response;
-    }
-
-    async adminListStudentTransactionHistory(adminListTransactionInput: AdminListTransactionInput, user: User): Promise<AdminListTransaction> {
-
-        return null;
     }
 
     /**
@@ -369,65 +351,6 @@ export class AdminService {
         return response;
     }
 
-
-    /**
-     * Create Customer Group
-     * @param customerGroupInput 
-     * @returns BooleanMessage
-     */
-    async adminCreateCustomerGroup(customerGroupInput: CustomerGroupInput): Promise<BooleanMessage> {
-
-        await this._adminRepository.adminCreateCustomerGroup(customerGroupInput);
-
-        const response = new BooleanMessage();
-        response.success = true;
-        response.message = this.i18n.t('user.CUSTOMER_GROUP_SUCCESSFULLY');
-        return response;
-    }
-
-    /**
-     * Update Customer Group
-     * @param updateCustomerGroupInput 
-     * @returns BooleanMessage
-     */
-    async adminUpdateCustomerGroup(updateCustomerGroupInput: UpdateCustomerGroupInput): Promise<BooleanMessage> {
-
-        await this._adminRepository.adminUpdateCustomerGroup(updateCustomerGroupInput);
-
-        const response = new BooleanMessage();
-        response.success = true;
-        response.message = this.i18n.t('user.CUSTOMER_GROUP_UPDATE');
-        return response;
-    }
-
-    /**
-     * Delete customer group by Id
-     * @param deleteCustomerGroupInput 
-     * @returns BooleanMessage
-     */
-    async adminDeleteCustomerGroup(deleteCustomerGroupInput: DeleteCustomerGroupInput): Promise<BooleanMessage> {
-        await this._adminRepository.adminDeleteCustomerGroup(deleteCustomerGroupInput);
-
-        const response = new BooleanMessage();
-        response.success = true;
-        response.message = this.i18n.t('user.DELETE_GROUP_SUCCESSFULLY');
-        return response;
-    }
-
-    /**
-     * listing customer group
-     * @param listCustomerGroupInput 
-     * @returns customer groups
-     */
-    async adminListCustomerGroup(listCustomerGroupInput: ListCustomerGroupInput): Promise<ListCustomerGroup[]> {
-        const response = await this._adminRepository.adminListCustomerGroup(listCustomerGroupInput);
-
-        if (!response.length) {
-            throw new NotFoundException(this.i18n.t('user.NO_CUSTOMER_GROUP_FOUND'));
-        }
-
-        return GetCustomerGroupResponse.decode(response);
-    }
 }
 
 

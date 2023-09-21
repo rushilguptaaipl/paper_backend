@@ -10,23 +10,13 @@ export class getSchool {
     name: string;
     status: Status;
 }
-export class GetUserAdditional {
-    id: number
-    overall_rating: number
-    total_credits: number;
-    school: getSchool;
-    flashcount: number;
-}
+
 export class RoleResponse {
     id: number
     name: string
     permissions: [string]
 }
 
-export class CustomerGroup {
-    id: number;
-    name: string;
-  }
 
 export class GetProfileResponse {
     name: string
@@ -37,12 +27,10 @@ export class GetProfileResponse {
     email_verified: number;
     is_admin_verified: boolean;
     referral_code: string
-    customerGroup: CustomerGroup;
 
     @Transform(({ value }) => value)
     profile_picture: string;
 
-    userAdditionalInformation: GetUserAdditional;
     @Expose({ name: 'roles' })
     @Transform(({ value }) => [value[0]] || [])
     role: RoleResponse[]
@@ -71,8 +59,6 @@ export class AuthResponse {
 
     @Expose({ name: 'roles' })
     role: RoleResponse[]
-
-    userAdditionalInformation: GetUserAdditional;
 
     static decode(input: any, tokens: Tokens): AuthResponse {
         const obj = plainToClass(this, input);

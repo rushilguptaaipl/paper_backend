@@ -11,11 +11,7 @@ export class getStatus{
     name : string
 }
 
-export class userAdditionalInformation{
-    id: string
-    total_credits : string
-    overall_rating : string
-}
+
 
 
 export class ListUserAdmin{
@@ -37,7 +33,7 @@ export class ListUserAdmin{
     role : RoleResponse[];
 
     status: getStatus;
-    userAdditionalInformation: userAdditionalInformation;
+
 }
 
 export class GetListUserResponse {

@@ -23,15 +23,7 @@ export class GetSchool {
   status: AuthStatus;
 
 }
-@ObjectType()
-export class UserAdditional {
 
-  @Field(() => GetSchool, { nullable: true })
-  school: GetSchool;
-
-  @Field({ nullable: true })
-  flashcount: number;
-}
 
 @ObjectType()
 export class UserRegister {
@@ -65,8 +57,7 @@ export class UserRegister {
   @Field(() => [UserRoles], { nullable: true })
   role: UserRoles[];
 
-  @Field(() => UserAdditional, { nullable: true })
-  userAdditionalInformation: UserAdditional;
+ 
 
   @Field({ nullable: true })
   access_token: string;

@@ -12,21 +12,7 @@ export class Status {
 
 }
 
-@ObjectType()
-export class getUserAdditionalInformation {
 
-    @Field({ nullable: true })
-    id: string;
-
-    @Field({ nullable: true })
-    total_credits : string
-
-    @Field({ nullable: true })
-    overall_rating : string
-
-    @Field({ nullable: true })
-    total_earnings: string
-}
 
 
 @ObjectType()
@@ -69,7 +55,6 @@ export class AdminProfile {
   @Field(() => Status, { nullable: true })
   status: Status;
 
-  @Field(() => getUserAdditionalInformation, { nullable: true })
-  userAdditionalInformation: getUserAdditionalInformation;
+
 
 }

@@ -11,12 +11,7 @@ export class Status{
     name : string
 }
 
-export class userAdditionalInformation{
-    id: string
-    total_credits : string
-    overall_rating : string
-    total_earnings: string
-}
+
 
 export class GetAdminProfileResponse {
     id: string;
@@ -37,7 +32,7 @@ export class GetAdminProfileResponse {
     role : RoleResponse[]
 
     status: Status;
-    userAdditionalInformation: userAdditionalInformation;
+
 
     static decode(input: any): GetAdminProfileResponse {
         return plainToClass(this, input);
