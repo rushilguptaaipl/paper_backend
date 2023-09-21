@@ -2,10 +2,12 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class ListSubjects{
-  @Field()
+  @Field({nullable:true})
   id:number
-  @Field()
+  @Field({nullable:true})
   subject:string
+  @Field({nullable:true})
+  subject_code:string
 }
 
 @ObjectType()

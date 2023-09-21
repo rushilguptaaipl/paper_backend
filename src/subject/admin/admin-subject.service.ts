@@ -20,7 +20,7 @@ export class AdminSubjectService {
 
   async adminCreateSubject(createSubjectInput: CreateSubjectInput): Promise<BooleanMessage>{
 
-    const IsSubjectExist = await this.subjectRepository.findOne({where:{subject:createSubjectInput.subject}})
+    const IsSubjectExist = await this.subjectRepository.findOne({where:{subject_code:createSubjectInput.subject_code}})
     if(IsSubjectExist)
     {
       throw new ConflictException()

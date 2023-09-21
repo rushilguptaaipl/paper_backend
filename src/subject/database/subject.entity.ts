@@ -10,6 +10,9 @@ export class Subject extends BaseEntity{
     @Column()
     subject : string
 
+    @Column({nullable:true})
+    subject_code : string
+
     @OneToMany(()=>PaperUpload,(paperupload)=>paperupload.id)
     paperUpload:PaperUpload
 

@@ -6,4 +6,8 @@ export class CreateSubjectInput {
   @Field()
   @IsNotEmpty({ message: 'Please provide subject' })
   subject: string;
+
+  @Field()
+  @IsNotEmpty({message:"Please provide subject code"})
+  subject_code : string;
 }
