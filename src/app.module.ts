@@ -30,6 +30,8 @@ import { SubjectModule } from './subject/subject.module';
 import { YearModule } from './year/year.module';
 import { PaperModule } from './paper/paper.module';
 import { UniversityModule } from './university/university.module';
+import { DatesheetModule } from './datesheet/datesheet.module';
+import { CourseModule } from './course/course.module';
 
 config();
 const configService = new ConfigService();
@@ -94,6 +96,8 @@ console.log(configService.get('GRAPHQL_INTROSPECTION'));
     YearModule,
     PaperModule,
     UniversityModule,
+    DatesheetModule,
+    CourseModule,
   ],
 
   providers: [AppService],

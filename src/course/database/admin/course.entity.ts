@@ -1,21 +1,16 @@
 import { Datesheet } from "src/datesheet/database/datesheet.entity";
-import { PaperUpload } from "src/paper/database/paperUpload.entity";
 import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Year {
+export class Course {
     @PrimaryGeneratedColumn()
-    id: number;
-
+    id: number
     @Column()
-    year: number;
-
-    @OneToMany(()=>Datesheet,(datesheet)=>datesheet.id)
-    datesheet:Datesheet
-
-    @OneToMany(()=>PaperUpload,(paperUpload)=> paperUpload.id)
-    paperUpload:PaperUpload
-
+    stream: string
+    @Column()
+    branch: string
+    @OneToMany(() => Datesheet, (datesheet) => datesheet.id)
+    datesheet: Datesheet
     @Column({
         type: 'timestamptz',
         default: () => 'NOW()',
