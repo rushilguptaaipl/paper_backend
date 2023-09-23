@@ -9,6 +9,7 @@ import { UpdateCourseInput } from "../dto/admin/updateCourseInput";
 import { NotFoundError } from "rxjs";
 import { GetCourseResponse } from "../response/admin/getCourse.response";
 import { ListCourseInput } from "../dto/admin/listCourse.input";
+import { DeleteCourseInput } from "../dto/admin/deleteCourse.input";
 
 @Injectable()
 export class AdminCourseService {
@@ -16,14 +17,14 @@ export class AdminCourseService {
     constructor(@InjectRepository(Course) private readonly courseRepository: Repository<Course>,
         @InjectRepository(University) private readonly universityRepository: Repository<University>) { }
 
-    async adminCreateCourse(createCourseInput: CreateCourseInput) {
-        const isExist = await this.courseRepository.findOne({ where: { university: { name: createCourseInput.university }, stream: createCourseInput.stream, branch: createCourseInput.branch }, relations: { university: true } })
+    async adminCreateCourse(createCourseInput: CreateCourseInput): Promise<BooleanMessage> {
+        const isExist: Course = await this.courseRepository.findOne({ where: { university: { name: createCourseInput.university }, stream: createCourseInput.stream, branch: createCourseInput.branch }, relations: { university: true } })
         if (isExist) {
             throw new BadRequestException("COURSE Already exist");
         }
-        const university = await this.universityRepository.findOne({ where: { name: createCourseInput.university } })
+        const university: University = await this.universityRepository.findOne({ where: { name: createCourseInput.university } })
 
-        if(!university){
+        if (!university) {
             throw new NotFoundException("university not found")
         }
 
@@ -42,9 +43,9 @@ export class AdminCourseService {
         return response
     }
 
-    async adminUpdateCourse(updateCourseInput: UpdateCourseInput) {
+    async adminUpdateCourse(updateCourseInput: UpdateCourseInput): Promise<BooleanMessage> {
 
-        const course = await this.courseRepository.findOne({ where: { id: updateCourseInput.id } })
+        const course: Course = await this.courseRepository.findOne({ where: { id: updateCourseInput.id } })
 
         if (updateCourseInput?.university) {
             var university = await this.universityRepository.findOne({ where: { name: updateCourseInput.university } })
@@ -55,7 +56,7 @@ export class AdminCourseService {
         course.stream = updateCourseInput?.stream;
         course.updated_at = new Date(Date.now());
 
-        await this.courseRepository.update(updateCourseInput.id,course);
+        await this.courseRepository.update(updateCourseInput.id, course);
 
         const response = new BooleanMessage()
         response.success = true
@@ -63,12 +64,25 @@ export class AdminCourseService {
         return response
     }
 
-    async adminListCourse(listcourseInput:ListCourseInput){
-        const [course,count] = await this.courseRepository.findAndCount({relations:{university:true},skip:listcourseInput.skip ,take:listcourseInput.take});
-        if(!course.length){
+    async adminListCourse(listcourseInput: ListCourseInput) {
+        const [course, count]: [Course[], number] = await this.courseRepository.findAndCount({ relations: { university: true }, skip: listcourseInput.skip, take: listcourseInput.take });
+        if (!course.length) {
             throw new NotFoundException("add a course")
         }
-      const result  = {course:course , count:count}
+        const result = { course: course, count: count }
         return GetCourseResponse.decode(result)
+    }
+
+    async adminDeleteCourse(deletecourseInput: DeleteCourseInput): Promise<BooleanMessage> {
+        const course: Course = await this.courseRepository.findOne({ where: { id: deletecourseInput.id } })
+        if (!course) {
+            throw new NotFoundException("course not found")
+        }
+        await this.courseRepository.softDelete(course.id)
+        const response = new BooleanMessage()
+        response.success = true
+        response.message = "deleted"
+        return response
+
     }
 }
