@@ -25,7 +25,7 @@ export class DatesheetService {
             throw new NotFoundException()
         }
 
-        const datesheet = await this.datesheetRepository.find({ where: { course: { id: course.id }, year: { id: year.id }, semester: getDatesheetInput.semester } ,relations:{course:true,year:true,subject:true}})
+        const datesheet = await this.datesheetRepository.find({ where: { course: { id: course.id }, year: { id: year.id }, semester: getDatesheetInput.semester,type:getDatesheetInput.type } ,relations:{course:true,year:true,subject:true}})
         
         return GetDatesheetResponse.decode(datesheet)
     }

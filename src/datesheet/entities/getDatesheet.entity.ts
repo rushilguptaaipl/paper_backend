@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { Semester } from "../enum/semester.enum";
+import { DatesheetType } from "../enum/datesheetType.enum";
 
 @ObjectType()
 export class SubjectEntity{
@@ -57,6 +58,9 @@ export class DatesheetEntity
 
     @Field(()=>Semester,{nullable:true})
     semester:Semester
+
+    @Field(()=>DatesheetType, {nullable:true})
+    type:DatesheetType
 }
 
 @ObjectType()

@@ -3,6 +3,7 @@ import { Year } from "src/year/database/year.entity";
 import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Semester } from "../enum/semester.enum";
 import { Course } from "src/course/database/admin/course.entity";
+import { DatesheetType } from "../enum/datesheetType.enum";
 
 @Entity()
 export class Datesheet extends BaseEntity {
@@ -18,6 +19,8 @@ export class Datesheet extends BaseEntity {
     date: string
     @Column()
     time: string
+    @Column({nullable:true})
+    type:DatesheetType
     @Column({
         type: "enum",
         enum: Semester,

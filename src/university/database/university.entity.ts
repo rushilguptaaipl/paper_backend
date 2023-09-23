@@ -1,3 +1,4 @@
+import { Course } from "src/course/database/admin/course.entity";
 import { PaperUpload } from "src/paper/database/paperUpload.entity";
 import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -14,6 +15,9 @@ export class University {
 
   @Column({ nullable: true })
   city: string
+
+  @OneToMany(()=>Course , (course)=> course.id)
+  course : Course
 
   @OneToMany(() => PaperUpload, (paperUpload) => paperUpload.id)
   paperUpload: PaperUpload;

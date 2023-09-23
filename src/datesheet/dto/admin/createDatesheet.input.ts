@@ -1,5 +1,6 @@
 import { Field, InputType, Int } from "@nestjs/graphql";
 import { IsNotEmpty } from "class-validator";
+import { DatesheetType } from "src/datesheet/enum/datesheetType.enum";
 import { Semester } from "src/datesheet/enum/semester.enum";
 
 @InputType()
@@ -27,6 +28,10 @@ export class CreateDatesheetInput{
     @Field()
     @IsNotEmpty()
     semester:Semester
+
+    @Field()
+    @IsNotEmpty()
+    type : DatesheetType
 
     @Field()
     @IsNotEmpty()

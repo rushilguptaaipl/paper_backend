@@ -1,5 +1,6 @@
 import { plainToClass } from "class-transformer";
 import { Semester } from "../enum/semester.enum";
+import { DatesheetType } from "../enum/datesheetType.enum";
 
 export class DatesheetSubjectResponse {
     id: number
@@ -26,6 +27,7 @@ export class DatesheetResponse {
     date: string
     time: string
     semester: Semester
+    type:DatesheetType
 }
 
 

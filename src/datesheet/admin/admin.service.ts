@@ -40,6 +40,7 @@ export class AdminDatesheetService {
         datesheet.time =  createDatesheetInput.time;
         datesheet.course = course;
         datesheet.semester = createDatesheetInput.semester;
+        datesheet.type = createDatesheetInput.type;
         datesheet.created_at = new Date(Date.now());
         datesheet.updated_at = new Date(Date.now());
 

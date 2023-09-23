@@ -5,9 +5,10 @@ import { AdminCourseService } from './admin/admin.service';
 import { AdminCourseResolver } from './admin/admin.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from './database/admin/course.entity';
+import { University } from 'src/university/database/university.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Course])],
+  imports:[TypeOrmModule.forFeature([Course,University])],
   providers: [CourseResolver, CourseService,AdminCourseService,AdminCourseResolver]
 })
 export class CourseModule {}

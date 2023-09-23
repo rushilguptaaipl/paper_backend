@@ -1,5 +1,6 @@
 import { Datesheet } from "src/datesheet/database/datesheet.entity";
-import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { University } from "src/university/database/university.entity";
+import { Column, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Course {
@@ -9,6 +10,8 @@ export class Course {
     stream: string
     @Column()
     branch: string
+    @ManyToOne(()=>University, (university)=>university.id)
+    university:University
     @OneToMany(() => Datesheet, (datesheet) => datesheet.id)
     datesheet: Datesheet
     @Column({
