@@ -4,9 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from 'src/course/database/admin/course.entity';
 import { Year } from 'src/year/database/year.entity';
 import { Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
 import { Datesheet } from './database/datesheet.entity';
-import { DatesheetEntity, GetDatesheetEntity } from './entities/getDatesheet.entity';
+import { GetDatesheetEntity } from './entities/getDatesheet.entity';
 import { GetDatesheetResponse } from './response/getDatesheet.response';
 import * as exceljs from "exceljs"
 import { Readable } from 'stream';
