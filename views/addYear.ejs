@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Year</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      var data, res , yearForm ;
+      document.addEventListener('DOMContentLoaded', async () => {
+        const query = `
+      query 
+            {
+            adminListYear {
+            year {
+            id
+            year
+                }   
+            }
+        }
+
+    `;
+    const query1 = 
+        `mutation adminCreateYear($CreateYearInput: CreateYearInput!) {
+         adminCreateYear(createYearInput: $CreateYearInput) {
+            success
+            message
+            }
+            }`;
+
+    
+
+        try {
+          const response = await axios.post('http://[::1]:3008/graphql', {
+            query,
+          }); 
+          data = response.data; 
+
+            yearForm = document.getElementById("Form")
+            yearForm.addEventListener('update',async function(event) {
+            event.preventDefault();
+            const formData = new FormData(yearForm)
+            const year = parseInt(formData.get("year"))
+            if(year<2000 || year>2024){ return window.alert("enter a valid year")}
+            const CreateYearInput = {
+               year:year
+            }
+             await axios.post('http://[::1]:3008/graphql',{query:query1,variables:{CreateYearInput}})
+            .then((response) => {
+                if(response?.data?.data?.adminCreateYear?.success == true){
+                  window.alert("year added successfully")
+                    location.reload();
+                }
+                else if(response?.data?.errors[0]?.message === "Conflict"){
+                  window.alert("year already exist")
+                  }
+               
+             })
+                     
+      })
+        } catch (error) {
+          console.error('Error:', error);
+        }
+        const yearList = document.getElementById('yearList');
+        res = data.data.adminListYear.year.map((item) => {
+          const row = `<tr>
+            <td>${item.id}</td>
+            <td>${item.year}</td>
+          </tr>
+        `;
+          yearList.insertAdjacentHTML('beforeend', row);
+        });
+      });
+    </script>
+
+    <link rel="stylesheet" href="/css/addYear.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Add Year</h2>
+      <form id="Form">
+        <label for="year">Year:</label>
+        <input type="text" id="year" placeholder="Enter a year" name="year" required />
+        <button type="submit" value="Submit" onclick="">Submit</button>
+      </form>
+
+      <h2>Year List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody id="yearList"></tbody>
+      </table>
+    </div>
+  </body>
+</html>

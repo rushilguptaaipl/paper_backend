@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Paper</title>
+    <link rel="stylesheet" href="/css/uploadPaper.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="navbar">
+        <h1>Upload Paper</h1>
+      </div>
+    </nav>
+
+    <div class="container">
+      <form action="" method="post" enctype="multipart/form-data">
+        <label for="subject">Subject:</label>
+        <select name="subject" id="subject">
+          <option value="math">Math</option>
+          <option value="science">Science</option>
+          <option value="history">History</option>
+          
+        </select>
+
+        <label for="year">Year:</label>
+        <select name="year" id="year">
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          
+        </select>
+
+        <label for="university">University:</label>
+        <select name="university" id="university">
+          <option value="university1">University 1</option>
+          <option value="university2">University 2</option>
+          <option value="university3">University 3</option>
+
+        </select>
+
+        <label for="paper">Upload Paper (PDF):</label>
+        <input type="file" name="paper" id="paper" accept=".pdf" />
+
+        <label for="image">Upload Image:</label>
+        <input type="file" name="image" id="image" accept="image/*" />
+
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+  </body>
+</html>

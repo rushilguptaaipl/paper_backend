@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/addUniversity.css" />
+    <title>University Entry</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        // query to list universities
+        const query = `query {
+            adminListUniversities {
+                id
+                name
+                city
+                state
+             }
+                }`;
+                // mutation to add university
+           const query1 = `mutation adminCreateUniversity($CreateUniversityInput:CreateUniversityInput!){
+                 adminCreateUniversity(createUniversityInput:$CreateUniversityInput) {
+                   success
+                   message
+                       }
+                         }`;  
+                //  muation to update university
+            const query2 = `mutation adminUpdateUniversity($UpdateUniversityInput:UpdateUniversityInput!){
+             adminUpdateUniversity(updateUniversityInput: $UpdateUniversityInput) {
+              success
+              message
+                }
+               }`
+            //    logic to list university
+        try {
+          const response = await axios.post('http://[::1]:3008/graphql', {
+            query,
+          });
+          const universityList = document.getElementById("university-list")
+          response.data.data.adminListUniversities.map((item)=>{
+            const row  = `<tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.state}</td>
+                <td>${item.city}</td>
+                <td class="action-buttons">
+                    <button class="edit" data-id="${item.id} ">Edit</button>
+                    <button class="delete" data-id='{"name":"${item.name}","state":"${item.state}","city":"${item.city}"}' value = "${item.id}">Delete</button>
+                </td>
+                </tr>`
+                universityList.insertAdjacentHTML('beforeend', row);
+          })
+        } catch (error) {
+          console.log(error);
+        }
+        //  logic to add university
+        const universityForm = document.getElementById("university-form")
+        universityForm.addEventListener("submit",async (event)=>{
+            event.preventDefault();
+            const formData = new FormData(universityForm)
+            const name = formData.get("name").trim().toLowerCase()
+            const city = formData.get("city").trim().toLowerCase()
+            const state = formData.get("state").trim().toLowerCase()
+            const  CreateUniversityInput = {
+               name:name,
+               state:state,
+               city:city
+            }
+            try{
+             const response = await axios.post('http://[::1]:3008/graphql',{query:query1,variables:{CreateUniversityInput}});
+             console.log(response.data.data.adminCreateUniversity.success);
+             if(response.data.data.adminCreateUniversity.success == true){window.alert("university created successfully")}
+             location.reload();
+            }
+            catch(error){console.log(error);}
+        })
+            //  logic to update university
+        const deleteButton = document.getElementsByClassName("delete");
+        for(let i=0;i<deleteButton.length;i++){
+            deleteButton[i].addEventListener("click",async (event)=>{
+            const id  = parseInt(event.srcElement.attributes.value.value)  ;
+            const rowValue = event.target.dataset.id
+            const rowValueObject = JSON.parse(rowValue);
+            const nameInputBox = document.getElementById("name")
+            nameInputBox.value = rowValueObject.name
+            const cityInputBox = document.getElementById("city")
+            cityInputBox.value = rowValueObject.city
+            const stateInputBox = document.getElementById("state")
+            stateInputBox.value = rowValueObject.state 
+            const universityForm = document.getElementById("university-form") 
+            const update = document.getElementById("update")
+            update.addEventListener("click",async (event)=>{
+            const formData = new FormData(universityForm)
+            const name = formData.get("name").trim().toLowerCase()
+            const city = formData.get("city").trim().toLowerCase()
+            const state = formData.get("state").trim().toLowerCase()
+            const  UpdateUniversityInput = {
+                id:id,
+               name:name,
+               state:state,
+               city:city
+            }
+            try{
+             const response = await axios.post('http://[::1]:3008/graphql',{query:query2,variables:{UpdateUniversityInput}});
+             console.log(response.data.data);
+             if(response.data.data.adminUpdateUniversity.success == true){window.alert("university created successfully")}
+             location.reload()
+            
+            }
+            catch(error){console.log(error);}
+        })         
+        })
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>University Entry</h1>
+      <form id="university-form">
+        <label for="name">Enter University Name:</label>
+        <input type="text" id="name" name="name" required />
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required>
+        <button type="submit" id="update">Update</button>
+        <button type="submit">Submit</button>
+      </form>
+      <h2>Universities:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>University Name</th>
+            <th>State</th> 
+            <th>City</th> 
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="university-list">
+          <!-- Universities will be displayed here dynamically-->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
