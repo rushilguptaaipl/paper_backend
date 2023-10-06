@@ -10,6 +10,13 @@ export class YearResponse{
     year:number
 }
 
+export class UniversityResponse{
+    id:number;
+    name:string;
+    city:string;
+    state:string
+}
+
 export class GetPaperResponse{
     id:number
     url:string

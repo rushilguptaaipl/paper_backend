@@ -26,13 +26,13 @@ export class AdminUploadPaperService {
         .leftJoinAndSelect("paperUpload.subject",'subject')
         .leftJoinAndSelect("paperUpload.year", "year")
         .leftJoinAndSelect('paperUpload.university', "university")
-        .andWhere('subject= :name', { name: uploadPaperInput.subject })
+        .andWhere('subject = :name', { name: uploadPaperInput.subject })
         .andWhere('year = :year', { year: uploadPaperInput.year })
-        .andWhere('university = :university' , {university:uploadPaperInput.university})
+        .andWhere('name = :university' , {university:uploadPaperInput.university})
         .getOne()
 
         if(isPaperExist){
-            throw new ConflictException()
+            throw new ConflictException("Paper Already Exists")
         }
 
         const subject = await this.subjectRepository.findOne({ where: { subject: uploadPaperInput.subject } })
@@ -48,6 +48,10 @@ export class AdminUploadPaperService {
         }
         
         const university = await this.universityRepository.findOne({where:{name:uploadPaperInput.university}});
+
+        if(!university){
+            throw new NotFoundException()
+        }
         
         const result = await this.imageUploadLib.imageUpload(image,this.PROFILE_PICTURE_UPLOAD_DIR,user)
 
@@ -62,7 +66,7 @@ export class AdminUploadPaperService {
 
         const response = new BooleanMessage()
         response.success = true; 
-        response.message = "uploaded";
+        response.message = "Paper Uploaded Successfully";
         return response;
     }
 

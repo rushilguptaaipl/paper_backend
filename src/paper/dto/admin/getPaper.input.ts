@@ -6,4 +6,6 @@ export class GetPaperInput{
 year:number;
 @Field()
 subject:string;
+@Field()
+university:string;
 }

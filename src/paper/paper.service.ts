@@ -20,8 +20,10 @@ export class PaperService {
             .createQueryBuilder('paperUpload')
             .leftJoinAndSelect('paperUpload.subject', 'subject')
             .leftJoinAndSelect('paperUpload.year', 'year')
+            .leftJoinAndSelect('paperUpload.university','university')
             .andWhere('subject= :name', { name: getPaperInput.subject })
             .andWhere('year = :year', { year: getPaperInput.year })
+            .andWhere('name = :university' , {university : getPaperInput.university})
             .getOne()
             console.log(paper);
             return GetPaperResponse.decode(paper)

@@ -17,6 +17,17 @@ export class YearGetPaper{
 }
 
 @ObjectType()
+export class UniversityGetPaper{
+    @Field()
+    id:number
+    @Field()
+    name:string
+    @Field()
+    city:string
+    @Field()
+    state:string
+}
+@ObjectType()
 export class GetPaper{
     @Field()
     id:number
@@ -26,4 +37,6 @@ export class GetPaper{
     subject:SubjectGetPaper
     @Field()
     year:YearGetPaper
+    @Field()
+    university : UniversityGetPaper
 }

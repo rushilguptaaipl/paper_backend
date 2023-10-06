@@ -19,7 +19,7 @@ export class Datesheet extends BaseEntity {
     date: string
     @Column()
     time: string
-    @Column({nullable:true})
+    @Column({type:"enum",enum:DatesheetType,default:null,nullable:true})
     type:DatesheetType
     @Column({
         type: "enum",

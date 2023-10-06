@@ -91,9 +91,9 @@ export class ImageUploadLib {
         );
      }
 
-     async awsUpload(imageUpload: ImageUploadInput, dir : string , user: any):Promise<any>{
+     async awsUpload(imageUpload , dir : string , user: any):Promise<any>{
 
-      const { createReadStream, filename, mimetype  } = await imageUpload.image;
+      const { createReadStream, filename, mimetype  } = await imageUpload;
 
       const getMimeType = this.imageMimeTypes.includes(mimetype);
       if(!getMimeType){
