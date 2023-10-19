@@ -4,6 +4,8 @@ import { CreateUniversityInput } from "../dto/admin/create-university.input";
 import { AdminuniversityService } from "./admin.service";
 import { UpdateUniversityInput } from "../dto/admin/update-university.input";
 import { ListUniversitiesEntity, ListUniversityEntity } from "../entities/admin/listUniversity.entity";
+import { FindUniversityInput } from "../dto/admin/find-University.input";
+import { FindUniversityEntity } from "../entities/admin/findUniversity.entity";
 
 @Resolver()
 export class AdminuniversityResolver{
@@ -21,5 +23,10 @@ async adminUpdateUniversity(@Args('updateUniversityInput')updateUniversityInput:
 @Query(()=>[ListUniversityEntity])
 async adminListUniversities(){
     return await this.universityService.adminListUniversities();
+}
+
+@Query(()=>FindUniversityEntity)
+async adminfindUniversity(@Args('findUniversityInput')findUniversityInput:FindUniversityInput){
+    return await this.universityService.adminfindUniversity(findUniversityInput)
 }
 }

@@ -6,6 +6,8 @@ import { Repository } from "typeorm";
 import { BooleanMessage } from "src/user/entities/boolean-message.entity";
 import { UpdateUniversityInput } from "../dto/admin/update-university.input";
 import { GetUniversitiesResponse, UniversityResponse } from "../response/admin/getUniversities.response";
+import { FindUniversityInput } from "../dto/admin/find-University.input";
+import { FindCourseResponse } from "src/course/response/admin/findCourse.response";
 
 
 @Injectable()
@@ -49,5 +51,13 @@ export class AdminuniversityService {
             throw new NotFoundException()
         }
         return UniversityResponse.decode(universities)
+    }
+
+    async adminfindUniversity(findUniversityInput:FindUniversityInput){
+        const university = await this.universityRepository.findOne({where:{id:findUniversityInput.id}})
+        if (!university) {
+            throw new NotFoundException("University Not Found")
+        }
+        return FindCourseResponse.decode(university)
     }
 }

@@ -10,6 +10,8 @@ import { NotFoundError } from "rxjs";
 import { GetCourseResponse } from "../response/admin/getCourse.response";
 import { ListCourseInput } from "../dto/admin/listCourse.input";
 import { DeleteCourseInput } from "../dto/admin/deleteCourse.input";
+import { FindCourseInput } from "../dto/admin/findCourse.input";
+import { FindCourseResponse } from "../response/admin/findCourse.response";
 
 @Injectable()
 export class AdminCourseService {
@@ -84,5 +86,13 @@ export class AdminCourseService {
         response.message = "deleted"
         return response
 
+    }
+
+    async adminFindCourse(findCourseInput:FindCourseInput):Promise<FindCourseResponse>{
+        const course :Course = await this.courseRepository.findOne({where:{id:findCourseInput.id}, relations:{university:true}})
+        if(!course){
+            throw new NotFoundException("Course not Found");
+        }
+        return FindCourseResponse.decode(course)
     }
 }

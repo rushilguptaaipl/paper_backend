@@ -6,6 +6,8 @@ import { UpdateCourseInput } from "../dto/admin/updateCourseInput";
 import { GetCourseResultEntity } from '../entities/admin/getCourse.entity';
 import { ListCourseInput } from "../dto/admin/listCourse.input";
 import { DeleteCourseInput } from "../dto/admin/deleteCourse.input";
+import { FindCourseInput } from "../dto/admin/findCourse.input";
+import { FindCourseEntity } from "../entities/admin/findCourse.entity";
 
 @Resolver()
 export class AdminCourseResolver {
@@ -31,4 +33,8 @@ export class AdminCourseResolver {
         await this.courseService.adminDeleteCourse(deletecourseInput)
     }
 
+    @Query(()=>FindCourseEntity)
+    async adminFindCourse(@Args('findCourseInput') findCourseInput:FindCourseInput ){
+          return await this.courseService.adminFindCourse(findCourseInput)
+    }
 }
