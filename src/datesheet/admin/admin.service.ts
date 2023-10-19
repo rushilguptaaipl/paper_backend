@@ -5,7 +5,6 @@ import { Repository } from "typeorm";
 import { CreateDatesheetInput } from "../dto/admin/createDatesheet.input";
 import { Year } from "src/year/database/year.entity";
 import { Subject } from "src/subject/database/subject.entity";
-import { threadId } from "worker_threads";
 import { BooleanMessage } from "src/user/entities/boolean-message.entity";
 import { Course } from "src/course/database/admin/course.entity";
 

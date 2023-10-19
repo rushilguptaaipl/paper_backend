@@ -64,8 +64,8 @@ export class AdminCourseService {
         return response
     }
 
-    async adminListCourse(listcourseInput: ListCourseInput) {
-        const [course, count]: [Course[], number] = await this.courseRepository.findAndCount({ relations: { university: true }, skip: listcourseInput.skip, take: listcourseInput.take });
+    async adminListCourse() {
+        const [course, count]: [Course[], number] = await this.courseRepository.findAndCount({ relations: { university: true }});
         if (!course.length) {
             throw new NotFoundException("add a course")
         }

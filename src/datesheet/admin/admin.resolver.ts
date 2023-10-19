@@ -4,12 +4,12 @@ import { AdminDatesheetService } from "./admin.service";
 import { CreateDatesheetInput } from "../dto/admin/createDatesheet.input";
 
 @Resolver()
-export class AdminDatesheetResolver{
+export class AdminDatesheetResolver {
 
-constructor(private readonly adminDatesheetService:AdminDatesheetService){}
+    constructor(private readonly adminDatesheetService: AdminDatesheetService) { }
 
-@Mutation(()=>BooleanMessage)
-async adminCreateDatesheet(@Args('createDatesheetInput')createDatesheetInput:CreateDatesheetInput){
-    return this.adminDatesheetService.adminCreateDatesheet(createDatesheetInput)
-}
+    @Mutation(() => BooleanMessage)
+    async adminCreateDatesheet(@Args('createDatesheetInput') createDatesheetInput: CreateDatesheetInput) {
+        return this.adminDatesheetService.adminCreateDatesheet(createDatesheetInput)
+    }
 }

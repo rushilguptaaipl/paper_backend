@@ -22,8 +22,8 @@ export class AdminCourseResolver {
     }
 
     @Query(() => GetCourseResultEntity)
-    async adminListCourse(@Args('listCourseInput') listcourseInput: ListCourseInput) {
-        return await this.courseService.adminListCourse(listcourseInput)
+    async adminListCourse() {
+        return await this.courseService.adminListCourse()
     }
 
     @Mutation(() => BooleanMessage)
