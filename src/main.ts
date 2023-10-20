@@ -33,7 +33,7 @@ async function bootstrap() {
 
   
   app.setViewEngine('ejs');
-  app.use(graphqlUploadExpress());
+  // app.use(graphqlUploadExpress());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalPipes(new ValidationPipe({
     transform: true

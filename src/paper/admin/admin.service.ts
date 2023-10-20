@@ -19,35 +19,36 @@ export class AdminUploadPaperService {
         @InjectRepository(University) private readonly universityRepository : Repository<University>,
         private readonly imageUploadLib:ImageUploadLib
     ) { }
-    async adminUploadPaper(uploadPaperInput: UploadpaperInput , user:any) :Promise<BooleanMessage> {
-       const {image} = uploadPaperInput
+    async adminUploadPaper(type , image) :Promise<BooleanMessage> {
+        let user = null
+    //    const {image} = type
         const isPaperExist = await this.paperUploadRepository
         .createQueryBuilder('paperUpload')
         .leftJoinAndSelect("paperUpload.subject",'subject')
         .leftJoinAndSelect("paperUpload.year", "year")
         .leftJoinAndSelect('paperUpload.university', "university")
-        .andWhere('subject = :name', { name: uploadPaperInput.subject })
-        .andWhere('year = :year', { year: uploadPaperInput.year })
-        .andWhere('name = :university' , {university:uploadPaperInput.university})
+        .andWhere('subject = :name', { name: type.subject })
+        .andWhere('year = :year', { year: type.year })
+        .andWhere('name = :university' , {university:type.university})
         .getOne()
 
         if(isPaperExist){
             throw new ConflictException("Paper Already Exists")
         }
 
-        const subject = await this.subjectRepository.findOne({ where: { subject: uploadPaperInput.subject } })
+        const subject = await this.subjectRepository.findOne({ where: { subject: type.subject } })
 
         if (!subject) {
             throw new NotFoundException()
         }
 
-        const year = await this.yearRepository.findOne({ where: { year: uploadPaperInput.year } })
+        const year = await this.yearRepository.findOne({ where: { year: type.year } })
 
         if (!year) {
             throw new NotFoundException()
         }
         
-        const university = await this.universityRepository.findOne({where:{name:uploadPaperInput.university}});
+        const university = await this.universityRepository.findOne({where:{name:type.university}});
 
         if(!university){
             throw new NotFoundException()

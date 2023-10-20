@@ -12,8 +12,8 @@ import { UseGuards } from '@nestjs/common';
 import PermissionGuard from 'src/auth/guards/permission.guard';
 
 @Resolver(() => Subject)
-@UseGuards(PermissionGuard())
-@UseGuards(AtGuard)
+// @UseGuards(PermissionGuard())
+// @UseGuards(AtGuard)
 export class AdminSubjectResolver {
   constructor(private readonly adminSubjectService: AdminSubjectService) { }
 

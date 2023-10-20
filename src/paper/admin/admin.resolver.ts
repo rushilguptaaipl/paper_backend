@@ -10,6 +10,6 @@ export class AdminUploadPaperResolver {
   @Mutation(() => BooleanMessage)
   adminUploadPaper(@Args('uploadPaperInput') uploadPaperInput: UploadpaperInput) {
     const user = null
-    return this.uploadPaperService.adminUploadPaper(uploadPaperInput, user)
+    // return this.uploadPaperService.adminUploadPaper(uploadPaperInput)
   }
 }
