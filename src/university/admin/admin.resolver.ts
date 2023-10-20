@@ -25,7 +25,7 @@ async adminListUniversities(){
     return await this.universityService.adminListUniversities();
 }
 
-@Query(()=>FindUniversityEntity)
+@Mutation(()=>FindUniversityEntity)
 async adminfindUniversity(@Args('findUniversityInput')findUniversityInput:FindUniversityInput){
     return await this.universityService.adminfindUniversity(findUniversityInput)
 }

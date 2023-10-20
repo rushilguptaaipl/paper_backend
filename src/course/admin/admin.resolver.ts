@@ -33,7 +33,7 @@ export class AdminCourseResolver {
         await this.courseService.adminDeleteCourse(deletecourseInput)
     }
 
-    @Query(()=>FindCourseEntity)
+    @Mutation(()=>FindCourseEntity)
     async adminFindCourse(@Args('findCourseInput') findCourseInput:FindCourseInput ){
           return await this.courseService.adminFindCourse(findCourseInput)
     }
