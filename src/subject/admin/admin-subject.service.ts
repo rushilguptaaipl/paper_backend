@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { CreateSubjectInput } from '../dto/admin/createSubject.input';
-import {updateSubjectInput} from '../dto/admin/updateSubject.input'
+import {UpdateSubjectInput} from '../dto/admin/updateSubject.input'
 import {DeleteSubjectInput} from '../dto/admin/deleteSubject.input'
 import { GetSubjectInput } from '../dto/admin/getSubjectinput';
 import { Subject } from '../database/subject.entity';
@@ -57,7 +57,7 @@ export class AdminSubjectService {
     return subject
   }
 
-  async adminUpdateSubject(updateSubjectInput:updateSubjectInput):Promise<BooleanMessage>{
+  async adminUpdateSubject(updateSubjectInput:UpdateSubjectInput):Promise<BooleanMessage>{
     const subject : Subject =  await this.subjectRepository.findOne({where:{id:updateSubjectInput.id}})
     if(!subject)
     {

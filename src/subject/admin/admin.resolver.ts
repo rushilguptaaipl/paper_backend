@@ -5,7 +5,7 @@ import { GetSubjectInput } from '../dto/admin/getSubjectinput';
 import { AdminListSubject, ListSubjects } from '../entities/admin/admin-list-Subject.entity';
 import { Subject } from '../database/subject.entity';
 import { BooleanMessage } from 'src/user/entities/boolean-message.entity';
-import {updateSubjectInput} from '../dto/admin/updateSubject.input'
+import {UpdateSubjectInput} from '../dto/admin/updateSubject.input'
 import {DeleteSubjectInput} from '../dto/admin/deleteSubject.input'
 import { AtGuard } from 'src/auth/guards/at.guard';
 import { UseGuards } from '@nestjs/common';
@@ -35,7 +35,7 @@ export class AdminSubjectResolver {
   }
 
   @Mutation(()=>BooleanMessage)
-  async adminUpdateSubject(@Args('updateSubjectInput') updateSubjectInput:updateSubjectInput){
+  async adminUpdateSubject(@Args('updateSubjectInput') updateSubjectInput:UpdateSubjectInput){
     return this.adminSubjectService.adminUpdateSubject(updateSubjectInput)
   }
 
